@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// game pages
+import 'package:interactive_darts/pages/test_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,14 +17,17 @@ class GameCard extends StatelessWidget {
   final String gameName;
   final String amountOfPlayers;
   final String gameTime;
+  final Widget gamePage;
+  final String gameImage;
   // icon
-  // way to get to the game page
 
   const GameCard({
     super.key,
     required this.gameName,
     required this.amountOfPlayers,
     required this.gameTime,
+    required this.gamePage,
+    required this.gameImage,
   });
 
   @override
@@ -43,10 +49,19 @@ class GameCard extends StatelessWidget {
         child: Column(
           children: [
             // Game Icon
-            Container(
-              height: gameIconSize,
-              width: gameIconSize,
-              color: Colors.white,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => gamePage),
+                );
+              },
+              child: Image(
+                height: gameIconSize,
+                width: gameIconSize,
+                image: AssetImage(gameImage),
+                fit: BoxFit.cover
+              ),
             ),
 
             // Game Details
@@ -98,23 +113,30 @@ class _MyHomePageState extends State<HomePage> {
     Color? backgroundColour = Color.fromARGB(255, 140, 199, 223);
     Color? chooseGameMenuColour = Colors.red[300];
 
+    const String testImage = 'images/placeholder.jpg';
+
     // Game 1
-    // game one icon
-    const String gameOneName = "Game Name";
-    const String gameOnePlayers = "Players 1-3";
-    const String gameOneTime = "15 - 20 mins";
+    String gameOneName = "Game Name";
+    String gameOnePlayers = "Players 1-3";
+    String gameOneTime = "15 - 20 mins";
+    const String gameOneImage = testImage;
+    Widget gameOnePage = TestPage();
 
     // Game 2
     // game two icon
-    const String gameTwoName = "Game Name";
-    const String gameTwoPlayers = "Players 1-3";
-    const String gameTwoTime = "15 - 20 mins";
+    String gameTwoName = "Game Name";
+    String gameTwoPlayers = "Players 1-3";
+    String gameTwoTime = "15 - 20 mins";
+    const String gameTwoImage = testImage;
+    Widget gameTwoPage = TestPage();
 
     // Game 3
     // game three icon
-    const String gameThreeName = "Game Name";
-    const String gameThreePlayers = "Players 1-3";
-    const String gameThreeTime = "15 - 20 mins";
+    String gameThreeName = "Game Name";
+    String gameThreePlayers = "Players 1-3";
+    String gameThreeTime = "15 - 20 mins";
+    const String gameThreeImage = testImage;
+    Widget gameThreePage = TestPage();
 
     return Scaffold(
       backgroundColor: backgroundColour,
@@ -146,25 +168,34 @@ class _MyHomePageState extends State<HomePage> {
                       children: [
                         // 1st Game
                         GameCard(
-                            gameName: gameOneName,
-                            amountOfPlayers: gameOnePlayers,
-                            gameTime: gameOneTime),
+                          gameName: gameOneName,
+                          amountOfPlayers: gameOnePlayers,
+                          gameTime: gameOneTime,
+                          gamePage: gameOnePage,
+                          gameImage: gameOneImage,
+                        ),
 
                         SizedBox(height: 15),
 
                         // 2nd Game
                         GameCard(
-                            gameName: gameTwoName,
-                            amountOfPlayers: gameTwoPlayers,
-                            gameTime: gameTwoTime),
+                          gameName: gameTwoName,
+                          amountOfPlayers: gameTwoPlayers,
+                          gameTime: gameTwoTime,
+                          gamePage: gameTwoPage,
+                          gameImage: gameTwoImage,
+                        ),
 
                         SizedBox(height: 15),
 
                         // 3rd Game
                         GameCard(
-                            gameName: gameThreeName,
-                            amountOfPlayers: gameThreePlayers,
-                            gameTime: gameThreeTime)
+                          gameName: gameThreeName,
+                          amountOfPlayers: gameThreePlayers,
+                          gameTime: gameThreeTime,
+                          gamePage: gameThreePage,
+                          gameImage: gameThreeImage,
+                        )
                       ],
                     ),
                   ),
