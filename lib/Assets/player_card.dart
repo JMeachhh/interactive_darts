@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 // assets
 import 'package:interactive_darts/Assets/player.dart';
 import 'package:interactive_darts/Assets/player_detail_pop_up.dart';
 
+// ignore: must_be_immutable
 class PlayerCard extends StatelessWidget {
   Player? player;
   PlayerCard({super.key, this.player});

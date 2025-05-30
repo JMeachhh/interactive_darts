@@ -25,21 +25,21 @@ class _MyHomePageState extends State<HomePage> {
     const String testImage = 'images/placeholder.jpg';
 
     // Game 1
-    String gameOneName = "Game Name";
+    String gameOneName = "Game One";
     int gameOnePlayers = 3;
     String gameOneTime = "15 - 20 mins";
     const String gameOneImage = testImage;
     Widget gameOnePage = TestPage();
 
     // Game 2
-    String gameTwoName = "Game Name";
+    String gameTwoName = "Game Two";
     int gameTwoPlayers = 6;
     String gameTwoTime = "15 - 20 mins";
     const String gameTwoImage = testImage;
     Widget gameTwoPage = TestPage();
 
     // Game 3
-    String gameThreeName = "Game Name";
+    String gameThreeName = "Game Three";
     int gameThreePlayers = 2;
     String gameThreeTime = "15 - 20 mins";
     const String gameThreeImage = testImage;

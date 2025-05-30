@@ -46,7 +46,8 @@ class GameCard extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => PlayerPage(
                           gamePageWidget: gamePage,
-                          maxAmountOfPlayers: maxAmountOfPlayers)),
+                          maxAmountOfPlayers: maxAmountOfPlayers,
+                          gameName: gameName,)),
                 );
               },
               child: Image(

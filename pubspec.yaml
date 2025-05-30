@@ -67,6 +67,7 @@ flutter:
   assets:
     - images/placeholder.jpg
     - images/placeholder_user.png
+    - images/dart_board.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
