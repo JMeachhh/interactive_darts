@@ -73,15 +73,17 @@ class PlayerPage extends StatelessWidget {
             height: 15,
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GamePage(gameName: gameName),
-                ),
-              );
-            },
-            child: Text('Start Game'),
+            onPressed: players.isNotEmpty
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GamePage(gameName: gameName, maxAmountOfPlayers : maxAmountOfPlayers),
+                      ),
+                    );
+                  }
+                : null, 
+            child: const Text('Start Game'),
           ),
         ],
       ),

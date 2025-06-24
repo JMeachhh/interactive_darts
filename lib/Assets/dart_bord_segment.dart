@@ -25,27 +25,27 @@ class DartBoardSegment extends StatelessWidget {
       case Ring.single:
         color = isFilledIn
             ? Colors.red[300]!
-            : const Color.fromARGB(0, 255, 205, 210)!;
+            : const Color.fromARGB(0, 255, 205, 210);
         break;
       case Ring.triple:
         color = isFilledIn
             ? Colors.green[700]!
-            : const Color.fromARGB(0, 102, 187, 106)!;
+            : const Color.fromARGB(0, 102, 187, 106);
         break;
       case Ring.double:
         color = isFilledIn
             ? Colors.red[900]!
-            : const Color.fromARGB(0, 211, 47, 47)!;
+            : const Color.fromARGB(0, 211, 47, 47);
         break;
       case Ring.outerBull:
         color = isFilledIn
             ? Colors.green[800]!
-            : const Color.fromARGB(0, 102, 187, 106)!;
+            : const Color.fromARGB(0, 102, 187, 106);
         break;
       case Ring.bull:
         color = isFilledIn
             ? Colors.redAccent
-            : const Color.fromARGB(0, 229, 115, 115)!;
+            : const Color.fromARGB(0, 229, 115, 115);
         break;
     }
 

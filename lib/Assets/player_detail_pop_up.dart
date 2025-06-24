@@ -111,6 +111,7 @@ class PlayerDetailPopUp {
                                 id: player.id,
                                 name: nameController.text.trim(),
                                 imagePath: imagePath,
+                                score: player.score
                               );
                               Provider.of<PlayerManager>(context, listen: false)
                                   .updatePlayer(updatedPlayer);
@@ -212,6 +213,7 @@ class PlayerDetailPopUp {
                           id: const Uuid().v4(),
                           name: nameController.text.trim(),
                           imagePath: imagePath,
+                          score : 0
                         );
                         Provider.of<PlayerManager>(context, listen: false)
                             .addPlayer(newPlayer);

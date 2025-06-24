@@ -33,16 +33,13 @@ class PlayerManager extends ChangeNotifier {
     _players = playerJsonList.map((jsonStr) {
       final data = jsonDecode(jsonStr);
 
-      // Assign a new UUID if missing
       if (data['id'] == null) {
         data['id'] = uuid.v4();
       }
 
       return Player.fromJson(data);
     }).toList();
-
     savePlayers();
-
     notifyListeners();
   }
 
@@ -50,14 +47,22 @@ class PlayerManager extends ChangeNotifier {
     final index = _players.indexWhere((p) => p.id == updatedPlayer.id);
     if (index != -1) {
       _players[index] = updatedPlayer;
-      savePlayers(); // persist to shared_preferences
+      savePlayers();
       notifyListeners();
     }
   }
 
   void removePlayer(Player player) {
-  _players.removeWhere((p) => p.id == player.id);
-  savePlayers();
-  notifyListeners();
-}
+    _players.removeWhere((p) => p.id == player.id);
+    savePlayers();
+    notifyListeners();
+  }
+
+  void undoLastScore(int playerIndex) {
+    if (playerIndex < 0 || playerIndex >= _players.length) return;
+
+    _players[playerIndex].undoLastScore();
+    savePlayers();
+    notifyListeners();
+  }
 }
