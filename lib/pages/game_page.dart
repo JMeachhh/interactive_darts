@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:interactive_darts/Assets/player.dart';
 import 'package:provider/provider.dart';
 import 'package:interactive_darts/Assets/dart_board.dart';
@@ -93,94 +95,55 @@ class _GamePageState extends State<GamePage> {
       final lastTurn = _scoreHistory.removeLast();
       final playerIndex = lastTurn['playerIndex'] as int;
 
-      // Undo player score in PlayerManager
       context.read<PlayerManager>().undoLastScore(playerIndex);
-
       currentPlayerIndex = playerIndex;
-
       scoreText = '${players[playerIndex].name} undid their last score';
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final Color? backgroundColour = Colors.blue[100];
     final players = context.watch<PlayerManager>().players;
+
     Player? nextPlayer =
         (nextPlayerIndex != null && nextPlayerIndex! < players.length)
             ? players[nextPlayerIndex!]
             : null;
 
     return Scaffold(
+      backgroundColor: backgroundColour,
       appBar: AppBar(
-        title: Text(widget.gameName),
-      ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              DartBoard(
-                type: 'normal',
-                onScoreChanged: (segment, ring) {
-                  if (!showNextPlayerOverlay) {
-                    onScoreUpdate(segment, ring);
-                  }
-                },
-              ),
-              const SizedBox(height: 16),
-              Text(scoreText, style: const TextStyle(fontSize: 20)),
-              const SizedBox(height: 16),
-              Scoreboard(
-                players: players,
-                currentPlayerIndex: currentPlayerIndex,
-                onUndo: showNextPlayerOverlay ? null : undoLastScore,
-              ),
-            ],
+        centerTitle: true,
+        backgroundColor: backgroundColour,
+        title: Text(
+          widget.gameName,
+          style: GoogleFonts.cinzelDecorative(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 0.04.sh,
           ),
-          if (showNextPlayerOverlay && nextPlayer != null)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black54,
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Next Player',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          nextPlayer.name,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                        const SizedBox(height: 16),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: _getPlayerAvatar(nextPlayer),
-                          backgroundColor: Colors.grey.shade200,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+        ),
+      ),
+      body: Column(
+        children: [
+          DartBoard(
+            type: 'normal',
+            onScoreChanged: (segment, ring) {
+              if (!showNextPlayerOverlay) {
+                onScoreUpdate(segment, ring);
+              }
+            },
+          ),
+          const SizedBox(height: 16),
+          Scoreboard(
+            players: players,
+            currentPlayerIndex: currentPlayerIndex,
+            onUndo: showNextPlayerOverlay ? null : undoLastScore,
+            scoreText: scoreText,
+            showNextPlayerOverlay: showNextPlayerOverlay,
+            nextPlayer: nextPlayer,
+          ),
         ],
       ),
     );

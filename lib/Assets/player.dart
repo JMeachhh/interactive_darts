@@ -8,8 +8,8 @@ class Player {
 
   int throwsThisTurn = 0;
 
-  final List<double> _scoreHistory = [];
-  final List<double> _allThrows = [];
+  final List<double> scoreHistory = [];
+  final List<double> allThrows = [];
 
   Player({
     required this.id,
@@ -33,18 +33,18 @@ class Player {
 }
 
   void addScore(double value) {
-    _scoreHistory.add(score);
+    scoreHistory.add(score);
     score += value;
 
     throwsThisTurn += 1;
-    _allThrows.add(value);
+    allThrows.add(value);
   }
 
   void undoLastScore() {
-    if (_scoreHistory.isNotEmpty && _allThrows.isNotEmpty) {
-      score = _scoreHistory.removeLast();
-      _allThrows.removeLast();
-      throwsThisTurn = _allThrows.length % 3; // throws in current turn (mod 3)
+    if (scoreHistory.isNotEmpty && allThrows.isNotEmpty) {
+      score = scoreHistory.removeLast();
+      allThrows.removeLast();
+      throwsThisTurn = allThrows.length % 3; // throws in current turn (mod 3)
     }
   }
 
@@ -54,23 +54,23 @@ class Player {
 
   /// Returns the last 3 throws to display on the scoreboard
   List<double> get throwsThisTurnScores {
-    if (_allThrows.isEmpty) return [];
+    if (allThrows.isEmpty) return [];
 
     // Get last N throws of current turn, max 3
     int count = throwsThisTurn;
-    if (count == 0 && _allThrows.isNotEmpty) {
+    if (count == 0 && allThrows.isNotEmpty) {
       // If no throws this turn, show empty list
       return [];
     }
 
     // Return last `throwsThisTurn` throws from _allThrows
-    return _allThrows.sublist(_allThrows.length - count);
+    return allThrows.sublist(allThrows.length - count);
   }
 
   /// Reset history and score
   void reset() {
-    _scoreHistory.clear();
-    _allThrows.clear();
+    scoreHistory.clear();
+    allThrows.clear();
     score = 0;
     throwsThisTurn = 0;
   }

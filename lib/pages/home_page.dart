@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // assets
 import 'package:interactive_darts/Assets/game_card.dart';
+import 'package:interactive_darts/Assets/games_manager.dart';
 
 // game pages
 import 'package:interactive_darts/pages/test_page.dart';
@@ -22,28 +23,7 @@ class _MyHomePageState extends State<HomePage> {
     Color? backgroundColour = Color.fromARGB(255, 140, 199, 223);
     Color? chooseGameMenuColour = Colors.red[300];
 
-    const String testImage = 'images/placeholder.jpg';
-
-    // Game 1
-    String gameOneName = "Game One";
-    int gameOnePlayers = 3;
-    String gameOneTime = "15 - 20 mins";
-    const String gameOneImage = testImage;
-    Widget gameOnePage = TestPage();
-
-    // Game 2
-    String gameTwoName = "Game Two";
-    int gameTwoPlayers = 6;
-    String gameTwoTime = "15 - 20 mins";
-    const String gameTwoImage = testImage;
-    Widget gameTwoPage = TestPage();
-
-    // Game 3
-    String gameThreeName = "Game Three";
-    int gameThreePlayers = 2;
-    String gameThreeTime = "15 - 20 mins";
-    const String gameThreeImage = testImage;
-    Widget gameThreePage = TestPage();
+    final games = GamesManager().getGames();
 
     return Scaffold(
       backgroundColor: backgroundColour,
@@ -73,36 +53,17 @@ class _MyHomePageState extends State<HomePage> {
                   child: Center(
                     child: Column(
                       children: [
-                        // 1st Game
-                        GameCard(
-                          gameName: gameOneName,
-                          maxAmountOfPlayers: gameOnePlayers,
-                          gameTime: gameOneTime,
-                          gamePage: gameOnePage,
-                          gameImage: gameOneImage,
-                        ),
-
-                        SizedBox(height: 15),
-
-                        // 2nd Game
-                        GameCard(
-                          gameName: gameTwoName,
-                          maxAmountOfPlayers: gameTwoPlayers,
-                          gameTime: gameTwoTime,
-                          gamePage: gameTwoPage,
-                          gameImage: gameTwoImage,
-                        ),
-
-                        SizedBox(height: 15),
-
-                        // 3rd Game
-                        GameCard(
-                          gameName: gameThreeName,
-                          maxAmountOfPlayers: gameThreePlayers,
-                          gameTime: gameThreeTime,
-                          gamePage: gameThreePage,
-                          gameImage: gameThreeImage,
-                        )
+                        for (var game in games)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: GameCard(
+                              gameName: game.name,
+                              maxAmountOfPlayers: game.maxPlayers,
+                              gameTime: game.gameTime,
+                              gamePage: game.page,
+                              gameImage: game.image,
+                            ),
+                          ),
                       ],
                     ),
                   ),
