@@ -6,9 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interactive_darts/Assets/game_card.dart';
 import 'package:interactive_darts/Assets/games_manager.dart';
 
-// game pages
-import 'package:interactive_darts/pages/test_page.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

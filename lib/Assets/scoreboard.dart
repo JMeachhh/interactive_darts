@@ -41,7 +41,7 @@ class Scoreboard extends StatelessWidget {
           alignment: Alignment.center,
           child: hasScore
               ? Text(
-                  scores[index].toStringAsFixed(0),
+                  scores[index].abs().toStringAsFixed(0),
                   style: TextStyle(
                     fontSize: 0.022.sh,
                     fontWeight: FontWeight.bold,
@@ -154,7 +154,8 @@ class Scoreboard extends StatelessWidget {
                               radius: 0.13.sw,
                               backgroundImage: currentImageProvider,
                               onBackgroundImageError: (_, __) {
-                                debugPrint('Failed to load: ${currentPlayer.imagePath}');
+                                debugPrint(
+                                    'Failed to load: ${currentPlayer.imagePath}');
                               },
                             ),
                             SizedBox(height: 0.01.sh),
@@ -171,10 +172,11 @@ class Scoreboard extends StatelessWidget {
                             ),
                             SizedBox(height: 0.005.sh),
                             Text(
-                              'Score: ${currentPlayer.score.toStringAsFixed(0)}',
+                              'Scores: ${currentPlayer.score.abs().toStringAsFixed(0)}',
                               style: TextStyle(fontSize: 0.025.sh),
                             ),
-                            _buildThrowSquares(currentPlayer.throwsThisTurnScores),
+                            _buildThrowSquares(
+                                currentPlayer.throwsThisTurnScores),
                             SizedBox(height: 0.005.sh),
                           ],
                         ),
@@ -195,25 +197,30 @@ class Scoreboard extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: nextPlayers.map((player) {
-                                final imageProvider = player.imagePath.startsWith('/')
-                                    ? FileImage(File(player.imagePath))
-                                    : AssetImage(player.imagePath) as ImageProvider;
+                                final imageProvider =
+                                    player.imagePath.startsWith('/')
+                                        ? FileImage(File(player.imagePath))
+                                        : AssetImage(player.imagePath)
+                                            as ImageProvider;
 
                                 return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 0.007.sh),
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 0.007.sh),
                                   child: Row(
                                     children: [
                                       CircleAvatar(
                                         radius: 0.05.sw,
                                         backgroundImage: imageProvider,
                                         onBackgroundImageError: (_, __) {
-                                          debugPrint('Failed to load: ${player.imagePath}');
+                                          debugPrint(
+                                              'Failed to load: ${player.imagePath}');
                                         },
                                       ),
                                       SizedBox(width: 0.02.sw),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               player.name,
@@ -224,8 +231,9 @@ class Scoreboard extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              'Score: ${player.score.toStringAsFixed(0)}',
-                                              style: TextStyle(fontSize: 0.018.sh),
+                                              'Score: ${player.score.abs().toStringAsFixed(0)}',
+                                              style:
+                                                  TextStyle(fontSize: 0.018.sh),
                                             ),
                                           ],
                                         ),

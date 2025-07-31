@@ -90,4 +90,10 @@ class Player {
       score: (json['score'] as num).toDouble(),
     );
   }
+
+  void clearScoreHistory() {
+  scoreHistory.clear();
+  allThrows.clear();
+  throwsThisTurn = 0;
+}
 }

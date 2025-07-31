@@ -78,7 +78,7 @@ class PlayerPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GamePage(gameName: gameName, maxAmountOfPlayers: maxAmountOfPlayers)
+                        builder: (context) => gamePageWidget
                       ),
                     );
                   }
