@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interactive_darts/Assets/player.dart';
+import 'package:interactive_darts/pages/finish_page.dart';
 import 'package:provider/provider.dart';
 import 'package:interactive_darts/Assets/dart_board.dart';
 import 'package:interactive_darts/Assets/scoreboard.dart';
@@ -35,14 +36,6 @@ class _ClassicGamePageState extends State<ClassicGamePage> {
         showGameSetup();
       }
     });
-  }
-
-  ImageProvider<Object>? _getPlayerAvatar(Player player) {
-    if (player.imagePath.startsWith('/')) {
-      return FileImage(File(player.imagePath));
-    } else {
-      return AssetImage(player.imagePath);
-    }
   }
 
   void onScoreUpdate(int segment, String ring) {
@@ -85,12 +78,21 @@ class _ClassicGamePageState extends State<ClassicGamePage> {
 
       // Player wins
       setState(() {
-        player.addScore(-scored); 
+        player.addScore(-scored);
         scoreText = '${player.name} wins the game!';
         showNextPlayerOverlay = true;
       });
 
-      // Optional: Disable further scoring (you can add a gameEnded flag)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                FinishPage(gameName: "Classic Game", winningPlayer: player),
+          ),
+        );
+      });
+
       return;
     }
 
@@ -200,7 +202,7 @@ class _ClassicGamePageState extends State<ClassicGamePage> {
                       final players = context.read<PlayerManager>().players;
                       for (var player in players) {
                         player.score = targetScore.toDouble();
-                        player.clearScoreHistory(); 
+                        player.clearScoreHistory();
                       }
                     });
                     Navigator.of(context).pop();
