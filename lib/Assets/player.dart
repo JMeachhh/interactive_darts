@@ -5,6 +5,7 @@ class Player {
   final String name;
   final String imagePath;
   double score;
+  int lives;
 
   int throwsThisTurn = 0;
 
@@ -16,6 +17,7 @@ class Player {
     required this.name,
     required this.imagePath,
     required this.score,
+    this.lives = 0,
   });
 
   factory Player.create({required String name, required String imagePath}) {
@@ -24,13 +26,34 @@ class Player {
       name: name,
       imagePath: imagePath,
       score: 0,
+      lives: 0,
     );
   }
 
+  void addLife(int amount) {
+    lives = (lives + amount).clamp(-1, 3);
+  }
+
+  void removeLife(int amount) {
+    lives = (lives - amount).clamp(-1, 3);
+  }
+
+  void addThrow() {
+    throwsThisTurn += 1;
+  }
+
+  int getLife() {
+    return lives;
+  }
+
+  int getThrowsLeft() {
+    return throwsThisTurn;
+  }
+
   void removeScore(double score) {
-  this.score -= score;
-  if (this.score < 0) this.score = 0;
-}
+    this.score -= score;
+    if (this.score < 0) this.score = 0;
+  }
 
   void addScore(double value) {
     scoreHistory.add(score);
@@ -73,6 +96,7 @@ class Player {
     allThrows.clear();
     score = 0;
     throwsThisTurn = 0;
+    lives = 0;
   }
 
   Map<String, dynamic> toJson() => {
@@ -92,8 +116,8 @@ class Player {
   }
 
   void clearScoreHistory() {
-  scoreHistory.clear();
-  allThrows.clear();
-  throwsThisTurn = 0;
-}
+    scoreHistory.clear();
+    allThrows.clear();
+    throwsThisTurn = 0;
+  }
 }

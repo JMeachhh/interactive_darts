@@ -3,62 +3,53 @@ import 'dart:math' as math;
 
 class DartBoardSegment extends StatelessWidget {
   final int segmentNumber;
-  final bool isFilledIn;
   final double boardSize;
   final Ring ring;
+  final Color segmentColour;
   final void Function(int segment, String ring) onTap;
 
   const DartBoardSegment({
     super.key,
     required this.segmentNumber,
-    required this.isFilledIn,
     required this.boardSize,
     required this.ring,
     required this.onTap,
+    required this.segmentColour,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color color;
-
-    switch (ring) {
-      case Ring.single:
-        color = isFilledIn
-            ? const Color.fromARGB(150, 255, 205, 210)
-            : const Color.fromARGB(0, 255, 205, 210);
-        break;
-      case Ring.triple:
-        color = isFilledIn
-            ? const Color.fromARGB(150, 102, 187, 106)
-            : const Color.fromARGB(0, 102, 187, 106);
-        break;
-      case Ring.double:
-        color = isFilledIn
-            ? const Color.fromARGB(150, 211, 47, 47)
-            : const Color.fromARGB(0, 211, 47, 47);
-        break;
-      case Ring.outerBull:
-        color = isFilledIn
-            ? const Color.fromARGB(150, 102, 187, 106)
-            : const Color.fromARGB(0, 102, 187, 106);
-        break;
-      case Ring.bull:
-        color = isFilledIn
-            ? const Color.fromARGB(150, 229, 115, 115)
-            : const Color.fromARGB(0, 229, 115, 115);
-        break;
-    }
-
-    return SizedBox(
-      width: boardSize,
-      height: boardSize,
-      child: ClipPath(
-        clipper: SegmentClipper(segmentNumber: segmentNumber, ring: ring),
-        child: GestureDetector(
-          onTap: () => onTap(segmentNumber, ring.name),
-          child: Container(color: color),
+    return Stack(
+      children: [
+        SizedBox(
+          width: boardSize,
+          height: boardSize,
+          child: ClipPath(
+            clipper: SegmentClipper(
+                segmentNumber: segmentNumber, ring: ring, Gesture: true),
+            child: GestureDetector(
+              onTap: () => onTap(segmentNumber, ring.name),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
         ),
-      ),
+        SizedBox(
+          width: boardSize,
+          height: boardSize,
+          child: ClipPath(
+            clipper: SegmentClipper(
+                segmentNumber: segmentNumber, ring: ring, Gesture: false),
+            child: GestureDetector(
+              onTap: () => onTap(segmentNumber, ring.name),
+              child: Container(
+                color: segmentColour,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -68,28 +59,27 @@ enum Ring { single, triple, double, outerBull, bull }
 class SegmentClipper extends CustomClipper<Path> {
   final int segmentNumber;
   final Ring ring;
+  final bool Gesture;
 
-  SegmentClipper({
-    required this.segmentNumber,
-    required this.ring,
-    super.reclip,
-  });
+  SegmentClipper(
+      {required this.segmentNumber, required this.ring, required this.Gesture});
 
   @override
   Path getClip(Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // Handle bull rings separately
     if (ring == Ring.bull) {
-      final bullRadius = radius * 0.035; // Bull radius
+      final bullRadius = radius * 0.035;
+
       return Path()
         ..addOval(Rect.fromCircle(center: center, radius: bullRadius));
     }
 
     if (ring == Ring.outerBull) {
       final outerBullInnerRadius = radius * 0.035;
-      final outerBullOuterRadius = radius * 0.08;
+      // final outerBullOuterRadius = radius * 0.08;
+      final outerBullOuterRadius = radius * 0.04;
 
       final outerRect =
           Rect.fromCircle(center: center, radius: outerBullOuterRadius);
@@ -99,30 +89,26 @@ class SegmentClipper extends CustomClipper<Path> {
       final path = Path()
         ..addOval(outerRect)
         ..addOval(innerRect)
-        ..fillType = PathFillType.evenOdd; // Ring shape
+        ..fillType = PathFillType.evenOdd;
       return path;
     }
 
-    // Normal segment logic for single, triple, double
-
-    // Map dart number to segment index (0-19)
-    final segmentIndex = mapDartNumberToIndex(segmentNumber);
-
     const segmentCount = 20;
     const segmentAngle = 2 * math.pi / segmentCount;
-
-    // Small correction to center segments nicely
     const angleCorrection = 2 * (math.pi / 180);
 
+    final segmentIndex = mapDartNumberToIndex(segmentNumber);
     final angleStart =
         (segmentIndex - 0.5) * segmentAngle - math.pi / 2 + angleCorrection;
     final angleEnd = angleStart + segmentAngle;
 
-    // Radii for rings (as fractions of radius)
     final rings = {
-      Ring.single: [radius * 0.08, radius * 0.72],
-      Ring.triple: [radius * 0.41, radius * 0.52],
-      Ring.double: [radius * 0.72, radius * 0.8],
+      Ring.single: [Gesture ? radius * 0.08 : radius * 0.065, radius * 0.72],
+      Ring.triple: [
+        Gesture ? radius * 0.41 : radius * 0.44,
+        Gesture ? radius * 0.52 : radius * 0.48
+      ],
+      Ring.double: [radius * 0.72, Gesture ? radius * 0.8 : radius * 0.77],
     };
 
     final innerRadius = rings[ring]![0];

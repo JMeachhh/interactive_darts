@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:interactive_darts/Assets/player.dart';
 
@@ -9,11 +10,24 @@ class FinishPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ImageProvider avatarImage = winningPlayer.imagePath.startsWith('/')
+        ? FileImage(File(winningPlayer.imagePath))
+        : AssetImage(winningPlayer.imagePath) as ImageProvider;
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            CircleAvatar(
+              radius: 60,
+              backgroundImage: avatarImage,
+              backgroundColor: Colors.grey.shade200,
+              onBackgroundImageError: (_, __) {
+                debugPrint('Failed to load: ${winningPlayer.imagePath}');
+              },
+            ),
+            const SizedBox(height: 20),
             Text(
               "Well done ${winningPlayer.name} for winning $gameName",
               style: const TextStyle(fontSize: 24),

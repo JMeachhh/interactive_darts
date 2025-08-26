@@ -72,6 +72,7 @@ flutter:
     - images/classic_game.jpg
     - images/killer.jpg
     - images/lives.jpg
+    - images/life_killer.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -30,14 +30,6 @@ class _GamePageState extends State<GamePage> {
 
   final List<Map<String, dynamic>> _scoreHistory = [];
 
-  ImageProvider<Object>? _getPlayerAvatar(Player player) {
-    if (player.imagePath.startsWith('/')) {
-      return FileImage(File(player.imagePath));
-    } else {
-      return AssetImage(player.imagePath);
-    }
-  }
-
   void onScoreUpdate(int segment, String ring) {
     final players = context.read<PlayerManager>().players;
     if (players.isEmpty || showNextPlayerOverlay) return;
@@ -137,6 +129,7 @@ class _GamePageState extends State<GamePage> {
           ),
           const SizedBox(height: 16),
           Scoreboard(
+            gameName: "Test",
             players: players,
             currentPlayerIndex: currentPlayerIndex,
             onUndo: showNextPlayerOverlay ? null : undoLastScore,
