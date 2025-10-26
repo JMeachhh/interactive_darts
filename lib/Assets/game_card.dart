@@ -45,9 +45,10 @@ class GameCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PlayerPage(
-                          gamePageWidget: gamePage,
-                          maxAmountOfPlayers: maxAmountOfPlayers,
-                          gameName: gameName,)),
+                            gamePageWidget: gamePage,
+                            maxAmountOfPlayers: maxAmountOfPlayers,
+                            gameName: gameName,
+                          )),
                 );
               },
               child: Image(
@@ -74,18 +75,23 @@ class GameCard extends StatelessWidget {
                     children: [
                       Icon(Icons.people,
                           color: fontColour, size: gameDetailFontSize),
-                      SizedBox(width: 5),
-                      Text("Players 1 - $maxAmountOfPlayers",
-                          style: TextStyle(
-                              fontSize: gameDetailFontSize, color: fontColour)),
+                      SizedBox(width: 2),
+                      Flexible(
+                        child: Text("Players 1 - $maxAmountOfPlayers",
+                            style: TextStyle(
+                                fontSize: gameDetailFontSize,
+                                color: fontColour)),
+                      ),
                       SizedBox(width: 20),
                       Icon(Icons.timer,
                           color: fontColour, size: gameDetailFontSize),
-                      SizedBox(width: 5),
-                      Text(
-                        gameTime,
-                        style: TextStyle(
-                            fontSize: gameDetailFontSize, color: fontColour),
+                      SizedBox(width: 2),
+                      Flexible(
+                        child: Text(
+                          gameTime,
+                          style: TextStyle(
+                              fontSize: gameDetailFontSize, color: fontColour),
+                        ),
                       )
                     ],
                   ),

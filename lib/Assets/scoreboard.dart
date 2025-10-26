@@ -74,6 +74,24 @@ class Scoreboard extends StatelessWidget {
           );
         }),
       );
+    } else if (gameName.toLowerCase() == "lives") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(3, (index) {
+          final hasLife = (lives ?? 0) > index;
+          return Container(
+            width: 0.06.sh,
+            height: 0.06.sh,
+            margin: EdgeInsets.symmetric(horizontal: 0.008.sw),
+            child: hasLife
+                ? Image.asset(
+                    'images/life_lives.jpg',
+                    fit: BoxFit.contain,
+                  )
+                : const SizedBox.shrink(),
+          );
+        }),
+      );
     } else {
       // Default for other games without lives
       return Row(
@@ -107,19 +125,34 @@ class Scoreboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usesLives = gameName.toLowerCase() == "killer";
+    String name = gameName.toLowerCase();
+    bool usesLives = false;
     final currentPlayer = players[currentPlayerIndex];
 
+    var nextPlayers = [];
+
     // Filter next players
-    final nextPlayers = usesLives
-        ? [
-            ...players.sublist(currentPlayerIndex + 1),
-            ...players.sublist(0, currentPlayerIndex),
-          ].where((p) => p.lives >= 0).toList()
-        : [
-            ...players.sublist(currentPlayerIndex + 1),
-            ...players.sublist(0, currentPlayerIndex),
-          ];
+    switch (name) {
+      case "killer":
+        nextPlayers = [
+          ...players.sublist(currentPlayerIndex + 1),
+          ...players.sublist(0, currentPlayerIndex),
+        ].where((p) => p.lives >= 0).toList();
+        usesLives = true;
+        break;
+      case "lives":
+        nextPlayers = [
+          ...players.sublist(currentPlayerIndex + 1),
+          ...players.sublist(0, currentPlayerIndex),
+        ].where((p) => p.lives > 0).toList();
+        usesLives = true;
+        break;
+      default:
+        nextPlayers = [
+          ...players.sublist(currentPlayerIndex + 1),
+          ...players.sublist(0, currentPlayerIndex),
+        ];
+    }
 
     final currentImageProvider = currentPlayer.imagePath.startsWith('/')
         ? FileImage(File(currentPlayer.imagePath))
@@ -353,7 +386,7 @@ class Scoreboard extends StatelessWidget {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () => onUndo!(currentPlayerIndex),
-                                child: const Text('Undo Score'),
+                                child: const Text('Undo Throw'),
                               ),
                             ),
                           ),

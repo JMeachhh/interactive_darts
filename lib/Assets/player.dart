@@ -71,6 +71,18 @@ class Player {
     }
   }
 
+  // Reset current score only (used at the start of a new turn)
+  void resetTempScore() {
+    score = 0;
+  }
+
+  // Restore a previous turn's throws and score (for undo)
+  void restoreTurn(List<double> previousThrows) {
+    allThrows.addAll(previousThrows);
+    score = previousThrows.fold(0.0, (sum, s) => sum + s);
+    throwsThisTurn = previousThrows.length;
+  }
+
   void resetThrows() {
     throwsThisTurn = 0;
   }

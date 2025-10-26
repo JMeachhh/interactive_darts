@@ -27,7 +27,7 @@ class _MyHomePageState extends State<HomePage> {
       body: Padding(
         padding: EdgeInsets.only(left: 0.05.sw, top: 0.25.sh),
         child: Container(
-            height: 0.72.sh,
+            height: 0.73.sh,
             width: 0.9.sw,
             decoration: BoxDecoration(
                 color: chooseGameMenuColour,

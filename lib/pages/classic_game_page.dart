@@ -30,6 +30,12 @@ class _ClassicGamePageState extends State<ClassicGamePage> {
   @override
   void initState() {
     super.initState();
+
+    final players = context.read<PlayerManager>().players;
+    for (var player in players) {
+      player.reset();
+    }
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!configDone) {
         showGameSetup();

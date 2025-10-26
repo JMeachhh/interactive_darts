@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interactive_darts/Assets/player_card.dart';
 import 'package:interactive_darts/Assets/player_manager.dart';
-import 'package:interactive_darts/pages/game_page.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPage extends StatelessWidget {
